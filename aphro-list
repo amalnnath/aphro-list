@@ -1,0 +1,87 @@
+#!/bin/bash
+
+# if no arguments are present
+if [ -z "$*" ]; then 
+	echo "No list specified";
+	exit 0;
+
+# NEW FILE
+elif [ $1 == '-n' ]; then
+	
+
+	if [ `ls ~/bin/aphro-list-dir | grep -c $2.ali` == 0 ]; then	
+		`touch ~/bin/aphro-list-dir/$2.ali`	
+		echo "New List Created"
+	else
+		echo "File already exists"
+	fi
+
+# REMOVE ITEM
+
+elif [ $1 == '-r' ]; then
+
+	echo `grep -v $2 ~/bin/aphro-list-dir/$3.ali > ~/bin/aphro-list-dir/temp; mv ~/bin/aphro-list-dir/temp ~/bin/aphro-list-dir/$3.ali`
+	echo "Item has been removed!"
+
+# ABOUT
+
+elif [ $1 == '-about' ]; then
+	
+	echo "|=========================|"
+	echo "|           ABOUT         |"
+	echo "|                         |"
+	echo "| Version:         0.1.3  |"
+	echo "|                         |"
+	echo "| Creator:         Aphro  |"
+	echo "|                         |"
+	echo "|=========================|"
+
+# HELP
+
+elif [ $1 == '-h' ]; then
+	
+	echo "|===============================================|"
+	echo "|                    HELP                       |"
+	echo "|                                               |"
+	echo "|aphro-list is an advanced terminal list system |"
+	echo "|                                               |"
+	echo "|COMMANDS:                                      |"
+	echo "|-n, Creates a new list, -n <file>              |"
+	echo "|-a, Add items to list, -a <item> <file>        |"
+	echo "|-r, Removes items from list, -r <item> <file>  |"
+	echo "|-d, Deletes list, -d <file>                    |"
+	echo "|-h, Help page                                  |"
+	echo "|-about, About page                             |"
+	echo "|                                               |"
+	echo "|Help page is still under development           |"
+	echo "|===============================================|"
+
+# DELETE LIST
+	
+elif [ $1 == '-d' ]; then
+	
+	`rm ~/bin/aphro-list-dir/$2.ali`
+	echo "List has been removed"
+
+# ADD ITEM
+
+elif [ $1 == '-a' ]; then
+
+	echo "- $2" > ~/bin/aphro-list-dir/temp
+	cat ~/bin/aphro-list-dir/$3.ali ~/bin/aphro-list-dir/temp >> ~/bin/aphro-list-dir/$3.ali
+
+# IF FILE DOESNT EXIST
+
+elif [ `ls ~/bin/aphro-list-dir | grep -c $1.ali` != 0 ]; then
+
+	echo "==================================="	
+	cat ~/bin/aphro-list-dir/$1.ali
+	echo "==================================="
+
+# NONE OF THE ABOVE
+
+else 
+	
+	echo "No list exits. Please use '-n' to create a new list!"
+fi
+
